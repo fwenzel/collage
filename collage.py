@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Make a grid from a set of input images.
+Generate a sequence from a set of input images.
 
 All settings can be overwritten in settings_local.py.
 """
@@ -63,10 +63,10 @@ def main():
 
     imgno = 0
     for tile_file in infiles:
-        pos = imgno + settings.TILE_OFFSET
         debug('Processing %s...' % tile_file)
 
         # Tile position.
+        pos = imgno + settings.TILE_OFFSET
         x = pos % COLS
         y = pos // COLS
         # Offsets.

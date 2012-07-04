@@ -1,7 +1,7 @@
 collage
 =======
 
-Take a bunch of images and place them on a grid.
+Take a bunch of images and generate an image sequence.
 
 Why?
 ----
