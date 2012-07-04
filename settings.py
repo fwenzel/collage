@@ -1,9 +1,9 @@
 import os
 
 
-# All images should be this size already.
+# Size of every image tile.
 TILE_SIZE = 160, 240
-RESIZE = False  # Resize files that don't match the above?
+RESIZE = True  # Resize files that don't match the above?
 
 # Column width of image grid. Rows will be determined automatically.
 COLS = 5

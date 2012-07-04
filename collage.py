@@ -75,6 +75,18 @@ def main():
 
         tile = Image.open(tile_file)
 
+        # Resize image if necessary!
+        if settings.RESIZE and tile.size != settings.TILE_SIZE:
+            w_from, h_from = tile.size
+            if (w_from / float(h_from) >
+                settings.TILE_SIZE[0] / float(settings.TILE_SIZE[1])):
+                w_to = settings.TILE_SIZE[0]
+                h_to = int(w_to / float(w_from) * h_from)
+            else:
+                h_to = settings.TILE_SIZE[1]
+                w_to = int(h_to / float(h_from) * w_from)
+            tile = tile.resize((w_to, h_to), Image.ANTIALIAS)
+
         # Place tile on canvas.
         img.paste(tile, (xoff, yoff))
 
