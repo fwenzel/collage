@@ -39,13 +39,14 @@ def main():
     if settings.WRITE:
         font = ImageFont.truetype(settings.FONT_FILE, settings.FONT_SIZE)
 
-    imgno = settings.TILE_OFFSET
+    imgno = 0
     for tile_file in infiles:
+        pos = imgno + settings.TILE_OFFSET
         debug('Processing %s...' % tile_file)
 
         # Tile position.
-        x = imgno % COLS
-        y = imgno // COLS
+        x = pos % COLS
+        y = pos // COLS
         # Offsets.
         xoff = settings.PADDING + x * (settings.TILE_SIZE[0] + settings.GAP)
         yoff = settings.PADDING + y * (settings.TILE_SIZE[1] + settings.GAP)
