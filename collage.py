@@ -1,12 +1,16 @@
 #!/usr/bin/env python
-"""Make a grid from a set of input images."""
+"""
+Make a grid from a set of input images.
+
+All settings (below) can be overwritten in local_config.py.
+"""
 
 import glob
 import math
 import os
 import sys
 
-from PIL import Image
+from PIL import Image, ImageFont, ImageDraw
 
 
 # All images should be this size already.
@@ -23,10 +27,22 @@ GAP = 2
 # Background color
 BGCOLOR = '#fff'
 # Output dir
-subdir = lambda d: os.path.join(os.path.dirname(__file__), d)
+subdir = lambda *d: os.path.join(os.path.dirname(__file__), *d)
 INPUT_DIR = subdir('images')
 OUTPUT_DIR = subdir('output')
 OUTPUT_FILENAME = 'collage.jpg'
+# Writing
+NUMBER_START = 4  # None for no writing.
+FONT_FILE = subdir('fonts', 'Happy_Monkey', 'HappyMonkey-Regular.ttf')
+FONT_SIZE = 20
+FONT_COLOR = '#fff'
+FONT_PADDING = 10  # Padding from bottom right tile corner, in px.
+
+# Import local configs, if present.
+try:
+    from local_config import *
+except ImportError:
+    pass
 
 
 def debug(s):
@@ -46,6 +62,11 @@ def main():
     img = Image.new('RGB', imgsize, BGCOLOR)
     debug('Creating a grid with %s columns and %s rows.' % (COLS, ROWS))
 
+    # Initialize number.
+    write_no = NUMBER_START
+    if write_no is not None:
+        font = ImageFont.truetype(FONT_FILE, FONT_SIZE)
+
     imgno = TILE_OFFSET
     for tile_file in infiles:
         debug('Processing %s...' % tile_file)
@@ -61,6 +82,23 @@ def main():
 
         # Place tile on canvas.
         img.paste(tile, (xoff, yoff))
+
+        # Write a number on the image, if desired.
+        if write_no is not None:
+            draw = ImageDraw.Draw(img)
+            txt = str(write_no)
+
+            # Calculate offsets.
+            txtsize = draw.textsize(txt, font=font)
+            font_xoff = xoff + TILE_SIZE[0] - txtsize[0] - FONT_PADDING
+            font_yoff = yoff + TILE_SIZE[1] - txtsize[1] - FONT_PADDING
+
+            # Finally, draw the number.
+            draw.text((font_xoff, font_yoff), txt, font=font,
+                      fill=FONT_COLOR)
+            del draw
+
+            write_no += 1
 
         imgno += 1
 

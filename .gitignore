@@ -1,2 +1,3 @@
 *.py[oc]
 \.DS_Store
+local_config\.py
