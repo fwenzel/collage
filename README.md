@@ -7,6 +7,10 @@ The script is quite configurable. All current config options are in the file
 ``settings.py``. To change them, make a file ``settings_local.py`` and
 overwrite whichever settings you want.
 
+Note: ``settings_local`` does not automatically inherit settings. If you want
+to reuse settings from settings.py, do ``from settings import *`` at the top
+of your settings file.
+
 
 Acknowledgments
 ---------------

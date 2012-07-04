@@ -9,19 +9,41 @@ import glob
 import math
 import os
 import sys
+from optparse import OptionParser
 
 from PIL import Image, ImageFont, ImageDraw
 
 import settings
 
 
+# Command-line options
+parser = OptionParser()
+parser.add_option('-i', '--input', dest="INPUT_DIR", action='store',
+                  default=settings.INPUT_DIR, help='Specify input directory')
+parser.add_option('-o', '--output', dest='OUTPUT_FILE', action='store',
+                  default=settings.OUTPUT_FILE, help='Specify output file')
+parser.add_option('--settings', dest='settings_module', action='store',
+                  default='settings_local', help='Specify settings module')
+(options, args) = parser.parse_args()
+
+
 def debug(s):
     sys.stderr.write('%s\n' % s)
 
 
+try:
+    settings = __import__(options.settings_module, globals(), locals(),
+                          [], -1)
+except ImportError:
+    if options.settings_module != 'settings_local':
+        debug('Error importing settings module "%s"!' %
+              options.settings_module)
+        sys.exit(1)
+
+
 def main():
     # List of input files.
-    infiles = glob.glob(os.path.join(settings.INPUT_DIR, '*.jpg'))
+    infiles = glob.glob(os.path.join(options.INPUT_DIR, '*.jpg'))
     debug('Found %s input files.' % len(infiles))
 
     # Create canvas.
@@ -79,9 +101,8 @@ def main():
     settings.post_process(img)
 
     # Save output file.
-    debug('Writing output file: %s' % settings.OUTPUT_FILENAME)
-    img.save(os.path.join(settings.OUTPUT_DIR, settings.OUTPUT_FILENAME),
-             quality=95)
+    debug('Writing output file: %s' % options.OUTPUT_FILE)
+    img.save(options.OUTPUT_FILE, quality=95)
 
 
 if __name__ == '__main__':
