@@ -1,5 +1,1 @@
-# Regular PIL:
-#PIL==1.1.7
-
-# PIL with X11 paths (for FreeType on OS X)
-Pillow==1.7.7
+Pillow==5.0.0
