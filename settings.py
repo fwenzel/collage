@@ -21,10 +21,15 @@ GAP = 2
 # Background color
 BGCOLOR = '#fff'
 
-# Output dir
+# Subdir
 subdir = lambda *d: os.path.join(os.path.dirname(__file__), *d)
+
+# Input dir
 INPUT_DIR = subdir('images')
+
+# Output file
 OUTPUT_FILE = subdir('output', 'collage.jpg')
+OUTPUT_QUALITY=95
 
 # Writing
 WRITE = True

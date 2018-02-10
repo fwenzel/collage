@@ -30,6 +30,8 @@ parser.add_option('-i', '--input', dest="INPUT_DIR", action='store',
                   default=settings.INPUT_DIR, help='Specify input directory')
 parser.add_option('-o', '--output', dest='OUTPUT_FILE', action='store',
                   default=settings.OUTPUT_FILE, help='Specify output file')
+parser.add_option('-q', '--quality', dest='OUTPUT_QUALITY', action='store',
+                  default=settings.OUTPUT_QUALITY, help='Specify quality of output file', type='int')
 parser.add_option('--settings', dest='settings_module', action='store',
                   default='settings_local', help='Specify settings module')
 parser.add_option('-f', '--files',
@@ -128,7 +130,7 @@ def main():
 
     # Save output file.
     debug('Writing output file: %s' % options.OUTPUT_FILE)
-    img.save(options.OUTPUT_FILE, quality=95)
+    img.save(options.OUTPUT_FILE, quality=options.OUTPUT_QUALITY)
 
 
 if __name__ == '__main__':
