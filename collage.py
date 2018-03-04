@@ -16,6 +16,14 @@ from PIL import Image, ImageFont, ImageDraw
 import settings
 
 
+def parse_files(option, opt, value, parser):
+    valid_images = []
+    images = value.split(',')
+    for image_path in images:
+        if os.path.isfile(image_path):
+            valid_images.append(image_path)
+    setattr(parser.values, option.dest, None if len(valid_images) < 1 else valid_images)
+
 # Command-line options
 parser = OptionParser()
 parser.add_option('-i', '--input', dest="INPUT_DIR", action='store',
@@ -24,6 +32,12 @@ parser.add_option('-o', '--output', dest='OUTPUT_FILE', action='store',
                   default=settings.OUTPUT_FILE, help='Specify output file')
 parser.add_option('--settings', dest='settings_module', action='store',
                   default='settings_local', help='Specify settings module')
+parser.add_option('-f', '--files',
+                  type='string',
+                  action='callback',
+                  dest='files',
+                  help='Specify comma separated list paths of ordered images to sequence',
+                  callback=parse_files)
 (options, args) = parser.parse_args()
 
 
@@ -43,7 +57,7 @@ except ImportError:
 
 def main():
     # List of input files.
-    infiles = glob.glob(os.path.join(options.INPUT_DIR, '*.jpg'))
+    infiles = options.files if options.files is not None else glob.glob(os.path.join(options.INPUT_DIR, '*.jpg'))
     debug('Found %s input files.' % len(infiles))
 
     # Create canvas.
