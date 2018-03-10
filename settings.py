@@ -21,22 +21,24 @@ GAP = 2
 # Background color
 BGCOLOR = '#fff'
 
-# Subdir
+# Helper to resolve a subdirectory
 subdir = lambda *d: os.path.join(os.path.dirname(__file__), *d)
 
-# Input dir
+# Location of input files
 INPUT_DIR = subdir('images')
 
-# Output file
+# Output file settings
 OUTPUT_FILE = subdir('output', 'collage.jpg')
 OUTPUT_QUALITY=95
 
-# Writing
+# Image text settings
 WRITE = True
 FONT_FILE = subdir('fonts', 'Happy_Monkey', 'HappyMonkey-Regular.ttf')
 FONT_SIZE = 20
 FONT_COLOR = '#fff'
 FONT_PADDING = 10  # Padding from bottom right tile corner, in px.
+
+# Resolve image text
 write_text = lambda no: str(no + 1)  # Default: Enumerate images.
 
 # Post-processing of image. Default: Do nothing.
