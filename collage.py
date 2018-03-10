@@ -9,6 +9,7 @@ import glob
 import math
 import os
 import sys
+from importlib import import_module
 from optparse import OptionParser
 
 from PIL import Image, ImageFont, ImageDraw
@@ -48,8 +49,7 @@ def debug(s):
 
 
 try:
-    settings = __import__(options.settings_module, globals(), locals(),
-                          [], -1)
+    settings = import_module(options.settings_module, '.')
 except ImportError:
     if options.settings_module != 'settings_local':
         debug('Error importing settings module "%s"!' %
