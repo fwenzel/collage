@@ -27,7 +27,7 @@ Here's an example with a few photos I took a few years back:
 
 And the final file looks like this:
 
-![Example Collage](https://github.com/fwenzel/collage/raw/master/example_collage.jpg)
+![Example Collage](./example_collage.jpg)
 
 
 Configuration
